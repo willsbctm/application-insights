@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using Microsoft.ApplicationInsights;
 using System.Web.Mvc;
 
 namespace AspNetApp.Controllers
@@ -11,6 +8,9 @@ namespace AspNetApp.Controllers
         public ActionResult Index()
         {
             ViewBag.Title = "Home Page";
+
+            var telemetryClient = new TelemetryClient();
+            telemetryClient.Context.Properties.Add("Home", "get na home");
 
             return View();
         }

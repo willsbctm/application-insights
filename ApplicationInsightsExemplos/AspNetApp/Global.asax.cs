@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using AspNetApp.Filters;
+using System.Configuration;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -11,6 +9,8 @@ namespace AspNetApp
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
+        private static string _apitrackBodyTelemetryConfigFilterEnabled = ConfigurationManager.AppSettings["ApiTrackBodyMvcTelemetryConfigFilterEnabled"];
+
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
@@ -18,6 +18,9 @@ namespace AspNetApp
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            if (TrackBodyTelemetryConfigApiFilter.ShouldBeEnabled(_apitrackBodyTelemetryConfigFilterEnabled))
+                GlobalConfiguration.Configuration.Filters.Add(new TrackBodyTelemetryConfigApiFilter());
         }
     }
 }
