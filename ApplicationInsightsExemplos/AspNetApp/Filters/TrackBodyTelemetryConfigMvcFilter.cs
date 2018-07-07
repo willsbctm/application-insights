@@ -2,6 +2,7 @@
 
 namespace AspNetApp.Filters
 {
+    // ActionFilterAttribute do namespace System.Web.Mvc é um filtro para actions dentro de uma Mvc Controller
     public class TrackBodyTelemetryConfigMvcFilter : ActionFilterAttribute
     {
         private readonly TrackBodyTelemetry _trackBodyTelemetry = new TrackBodyTelemetry();

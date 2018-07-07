@@ -1,4 +1,4 @@
-﻿using AspNetApp.Filters;
+﻿using Microsoft.ApplicationInsights.Extensibility;
 using System.Configuration;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -9,7 +9,7 @@ namespace AspNetApp
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
-        private static string _apitrackBodyTelemetryConfigFilterEnabled = ConfigurationManager.AppSettings["ApiTrackBodyMvcTelemetryConfigFilterEnabled"];
+        private static string _instrumentationKey = ConfigurationManager.AppSettings["InstrumentationKey"];
 
         protected void Application_Start()
         {
@@ -19,8 +19,7 @@ namespace AspNetApp
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            if (TrackBodyTelemetryConfigApiFilter.ShouldBeEnabled(_apitrackBodyTelemetryConfigFilterEnabled))
-                GlobalConfiguration.Configuration.Filters.Add(new TrackBodyTelemetryConfigApiFilter());
+            TelemetryConfiguration.Active.InstrumentationKey = _instrumentationKey;
         }
     }
 }
