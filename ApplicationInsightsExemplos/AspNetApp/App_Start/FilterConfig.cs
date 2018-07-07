@@ -12,7 +12,7 @@ namespace AspNetApp
         {
             filters.Add(new HandleErrorAttribute());
 
-            if (TrackBodyTelemetryConfigMvcFilter.ShouldBeEnabled(_mvctrackBodyTelemetryConfigFilterEnabled))
+            if (TrackBodyTelemetry.IsActive(_mvctrackBodyTelemetryConfigFilterEnabled))
                 filters.Add(new TrackBodyTelemetryConfigMvcFilter());
         }
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.ApplicationInsights;
+using Microsoft.ApplicationInsights.DataContracts;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
 
 namespace AspNetApp.Filters
@@ -8,26 +8,23 @@ namespace AspNetApp.Filters
     public class TrackBodyTelemetry
     {
         private const string _dimension = "body";
-        private readonly IList<string> _methodsAlloweds = new List<string> { HttpMethod.Put.ToString(), HttpMethod.Post.ToString() };
+        private static IList<string> _methodsAlloweds = new List<string> { HttpMethod.Put.ToString(), HttpMethod.Post.ToString() };
 
-        public bool IsPutOrPost(string method)
+        public static bool IsActive(string key) => key != null && key == "true";
+
+        public static bool IsPutOrPost(string method)
             => _methodsAlloweds.Contains(method);
 
-        public string GetRequestBody(Stream inputStream)
-        {
-            using (var streamReader = new StreamReader(inputStream))
-            {
-                return streamReader.ReadToEnd();
-            }
-        }
-
-        public void AddBodyToTelemetry(string requestBody)
+        public static void AddBodyToTelemetryClient(string requestBody)
         {
             if (!string.IsNullOrWhiteSpace(requestBody))
-            {
-                var telemetryClient = new TelemetryClient();
-                telemetryClient.Context.Properties.Add(_dimension, requestBody);
-            }
+                new TelemetryClient().Context.Properties.Add(_dimension, requestBody);
+        }
+
+        public static void AddBodyToRequestTelemetry(RequestTelemetry requestTelemetry, string requestBody)
+        {
+            if (!string.IsNullOrWhiteSpace(requestBody))
+                requestTelemetry.Context.Properties.Add(_dimension, requestBody);
         }
     }
 }

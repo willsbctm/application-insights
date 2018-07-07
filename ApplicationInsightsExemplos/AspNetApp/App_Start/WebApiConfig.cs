@@ -18,7 +18,7 @@ namespace AspNetApp
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            if (TrackBodyTelemetryConfigApiFilter.ShouldBeEnabled(_apitrackBodyTelemetryConfigFilterEnabled))
+            if (TrackBodyTelemetry.IsActive(_apitrackBodyTelemetryConfigFilterEnabled))
                 config.Filters.Add(new TrackBodyTelemetryConfigApiFilter());
         }
     }

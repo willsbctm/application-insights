@@ -156,7 +156,9 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\TrackController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
+    <Compile Include="Filters\TrackBodyOnApplicationInsightsInitializer.cs" />
     <Compile Include="Filters\TrackBodyTelemetry.cs" />
     <Compile Include="Filters\TrackBodyTelemetryConfigApiFilter.cs" />
     <Compile Include="Filters\TrackBodyTelemetryConfigMvcFilter.cs" />

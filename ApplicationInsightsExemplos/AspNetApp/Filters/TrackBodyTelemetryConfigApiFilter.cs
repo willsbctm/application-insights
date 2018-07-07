@@ -5,21 +5,18 @@ namespace AspNetApp.Filters
     // ActionFilterAttribute do namespace System.Web.Http.Filters é um filtro para actions dentro de uma ApiController
     public class TrackBodyTelemetryConfigApiFilter : ActionFilterAttribute
     {
-        private readonly TrackBodyTelemetry _trackBodyTelemetry = new TrackBodyTelemetry();
-
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {
             var filterContext = actionExecutedContext.ActionContext;
-            if (_trackBodyTelemetry.IsPutOrPost(filterContext.Request.Method.ToString()))
+            if (TrackBodyTelemetry.IsPutOrPost(filterContext.Request.Method.ToString()))
             {
                 var requestBody = GetBodyFromRequest(actionExecutedContext);
-                _trackBodyTelemetry.AddBodyToTelemetry(requestBody);
+                // Os dados do corpo não são adicionados no request =(
+                TrackBodyTelemetry.AddBodyToTelemetryClient(requestBody);
             }
 
             base.OnActionExecuted(actionExecutedContext);
         }
-
-        public static bool ShouldBeEnabled(string keyValue) => keyValue != null && keyValue == "true";
 
         private string GetBodyFromRequest(HttpActionExecutedContext actionExecutedContext)
         {

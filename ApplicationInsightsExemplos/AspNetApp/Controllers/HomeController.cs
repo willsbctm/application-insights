@@ -1,4 +1,5 @@
 ﻿using Microsoft.ApplicationInsights;
+using System.Collections.Generic;
 using System.Web.Mvc;
 
 namespace AspNetApp.Controllers
@@ -9,10 +10,16 @@ namespace AspNetApp.Controllers
         {
             ViewBag.Title = "Home Page";
 
-            var telemetryClient = new TelemetryClient();
-            telemetryClient.Context.Properties.Add("Home", "get na home");
-
             return View();
+        }
+
+        [HttpPost]
+        public string Post(string body)
+        {
+            var telemetryClient = new TelemetryClient();
+            telemetryClient.TrackEvent("Post", new Dictionary<string, string> { { "body", body } });
+
+            return body;
         }
     }
 }
